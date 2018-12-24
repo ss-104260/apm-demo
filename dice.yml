@@ -35,7 +35,7 @@ services:
       exec:
         cmd: echo 1
     ports:
-    - 20880
+    - 3000
     deployments:
       replicas: 1
     resources:
