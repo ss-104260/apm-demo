@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <script src="/api/ta"></script>
+    <script>
+        var _taConfig = window._taConfig;
+        if (_taConfig && _taConfig.enabled) {
+            !function(e,n,r,t,a,o,c){e[a]=e[a]||function(){(e[a].q=e[a].q||[]).push(arguments)},e.onerror=function(n,r,t,o,c){e[a]("sendExecError",n,r,t,o,c)},n.addEventListener("error",function(n){e[a]("sendError",n)},!0),o=n.createElement(r),c=n.getElementsByTagName(r)[0],o.async=1,o.src=t,c.parentNode.insertBefore(o,c)}(window,document,"script",_taConfig.url,"$ta");
+            $ta('start', { udata: { uid: 0 }, ak: _taConfig.ak, url: _taConfig.collectorUrl });
+        }
+    </script>
+    <link rel="shortcut icon" href="/static/imgs/favicon.png" />
+    <link rel="stylesheet" href="/static/libs/bootstrap/3.3.7/css/bootstrap.css">
+    <script src="/static/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/static/libs/bootstrap/3.3.7/js/bootstrap.js"></script>
+    <%-scripts%>
+    <%-stylesheets%>
+    <link rel="stylesheet" href="/static/css/common.css">
+    <script src="/static/js/request.js"></script>
+</head>
+<body>
+<%-blocks.header%>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#"><%=title%></a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav">
+                <%- include _menus %>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+<%- partial('_msgbox', {title: '响应数据', show: false, id: 'response', msg:'' }) %>
+<%-body -%>
+</div>
+<%-blocks.footer%>
+</body>
+</html>

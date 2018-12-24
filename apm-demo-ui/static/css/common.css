@@ -1,0 +1,7 @@
+.message-box .body {
+    background-color: black;
+    border-radius: 5px;
+    padding: 8px;
+    color: white;
+    height: 200px;
+}

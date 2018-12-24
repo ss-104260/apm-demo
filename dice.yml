@@ -1,0 +1,76 @@
+version: 2.0
+
+services:
+  apm-demo-api:
+    health_check:
+    health_check:
+      exec:
+        cmd: echo 1
+    ports:
+    - 8095
+    deployments:
+      replicas: 1
+    resources:
+      cpu: 0.1
+      mem: 512
+      disk: 0
+    expose:
+      - 8095
+  apm-demo-dubbo:
+    health_check:
+      exec:
+        cmd: echo 1
+    ports:
+    - 20880
+    deployments:
+      replicas: 1
+    resources:
+      cpu: 0.1
+      mem: 512
+      disk: 0
+    expose:
+      - 20880
+  apm-demo-ui:
+    health_check:
+      exec:
+        cmd: echo 1
+    ports:
+    - 20880
+    deployments:
+      replicas: 1
+    resources:
+      cpu: 0.1
+      mem: 512
+      disk: 0
+    expose:
+      - 3000
+
+# 中间件
+addons:
+  zookeeper:
+    plan: zookeeper:professional
+
+environments:
+  production:
+    services:
+      apm-demo-api:
+        deployments:
+          replicas: 1
+        resources:
+          cpu: 0.1
+          mem: 512
+          disk: 0
+      apm-demo-dubbo:
+        deployments:
+          replicas: 1
+        resources:
+          cpu: 0.1
+          mem: 512
+          disk: 0
+      apm-demo-ui:
+        deployments:
+          replicas: 1
+        resources:
+          cpu: 0.1
+          mem: 512
+          disk: 0

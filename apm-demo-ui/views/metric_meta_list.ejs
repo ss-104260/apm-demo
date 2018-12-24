@@ -1,0 +1,72 @@
+<% layout('layout/_layout') -%>
+<script>
+    $(function () {
+        ReqBox.getMetricMetaList({
+            success: function (resp) {
+                var list = JSON.parse(resp);
+                for(var i=0; i < list.length; i++) {
+                    var item = list[i];
+                    (function(item) {
+                        var html = $('            <tr>\n' +
+                                '                <td>' + $("<div />").text(item.name).html() + '</td>\n' +
+                                '                <td><button class="btn btn-default btn-sm show-tags">详细</button></td>\n' +
+                                '                <td><button class="btn btn-default btn-sm show-fields">详细</button></td>\n' +
+                                '                <th>' + $("<div />").text(item.desc).html() + '</th>\n' +
+                                '                <th><a class="btn btn-default btn-sm btn-edit" href="/metric_meta?id=' + item.id + '">修改</a></th>\n' +
+                                '            </tr>');
+                        html.find(".show-tags").click(function () {
+                            var tags = JSON.parse(item.tags);
+                            var body = JSON.stringify(tags, null, "    ");
+                            $("#msgDlg .modal-title").text(item.name + " 的 Tags");
+                            $("#msgDlg .modal-body pre").html(body);
+                            $("#msgDlg").modal("show");
+                        });
+                        html.find(".show-fields").click(function () {
+                            var fields = JSON.parse(item.fields);
+                            var body = JSON.stringify(fields, null, "    ");
+                            $("#msgDlg .modal-title").text(item.name + " 的 Fields");
+                            $("#msgDlg .modal-body pre").html(body);
+                            $("#msgDlg").modal("show");
+                        });
+                        $("#metricBox tbody").append(html);
+                    })(item);
+                }
+            }
+        });
+    });
+</script>
+
+<h3 style="text-align: center">Metric 元数据</h3>
+<br/><br/>
+<div>
+    <h3>Metric元数据列表 &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-primary btn-sm" href="/metric_meta">添加</a></h3>
+    <table id="metricBox" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Tags</th>
+            <th>Fields</th>
+            <th>描述</th>
+            <th style="width: 65px;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="msgDlg" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">标题</h4>
+            </div>
+            <div class="modal-body">
+                <pre></pre>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>

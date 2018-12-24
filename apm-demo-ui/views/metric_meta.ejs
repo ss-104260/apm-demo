@@ -1,0 +1,255 @@
+<% layout('layout/_layout') -%>
+<script>
+    function getQueryVariable(variable) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(decodeURIComponent(pair[0]) == variable){ return decodeURIComponent(pair[1]); }
+        }
+        return "";
+    }
+    var data_id = parseInt(getQueryVariable("id"));
+    $(function () {
+        $(".btn-more").click(function () {
+            $(".more-options").slideToggle();
+        });
+        if(!!data_id) {
+            $("#title").html("修改 Metric 元数据");
+            $(".btn-push").html("修改");
+            $("input[name=name]").attr("readonly","readonly");
+            ReqBox.getMetricMetaById({
+                id: data_id,
+                success: function (data) {
+                    data = JSON.parse(data);
+                    $("input[name=name]").val(data.name);
+                    var tags = JSON.parse(data.tags);
+                    for(key in tags) {
+                        var tag = tags[key];
+                        if(typeof tag == "object" && tag.type == "string") {
+                            tag.key = key;
+                            addTag(tag);
+                        }
+                    }
+                    var fields = JSON.parse(data.fields);
+                    for(key in fields) {
+                        var field = fields[key];
+                        if(typeof field == "object" && !!field.unit) {
+                            field.key = key;
+                            addField(field);
+                        }
+                    }
+                    $("[name=desc]").val(data.desc);
+                    // if(data.agg1m) {
+                    //     $("[name=agg_1m]")[0].checked = true
+                    // }
+                    // if(data.sourceToEs) {
+                    //     $("[name=source_to_es]")[0].checked = true
+                    // }
+                }
+            });
+        }
+        function addTag(item) {
+            item = item || { key: "", label: "" };
+            var row = $('                            <tr>\n' +
+                    '                                <td><input type="text" name="key" class="form-control" placeholder="输入Key" value=' + item.key + '></td>\n' +
+                    '                                <td><input type="text" name="label" class="form-control" placeholder="输入描述性名称" value=' + item.label + '></td>\n' +
+                    '                                <td><button type="button" class="btn btn-default center-block btn-remove">-</button></td>\n' +
+                    '                            </tr>');
+            row.find(".btn-remove").click(function () {
+                $(this).parent().parent().remove();
+            })
+            $(".tags").find("tbody").append(row);
+        }
+        function addField(item) {
+            item = item || { key: "", label: "", unit: "ms" };
+            var row = $('                            <tr>\n' +
+                    '                                <td><input type="text" name="key" class="form-control" placeholder="输入Key" value=' + item.key + '></td>\n' +
+                    '                                <td><input type="text" name="label" class="form-control" placeholder="输入描述性名称" value=' + item.label + '></td>\n' +
+                    '                                <td>\n' +
+                    '                                    <select name="unit" style="width:60px;" class="form-control" placeholder="输入单位">' +
+                    '                                        <option value="ms">毫秒</option>' +
+                    '                                        <option value="ns">纳秒</option>' +
+                    '                                        <option value="s">秒</option>' +
+                    '                                        <option value="count">次数</option>' +
+                    '                                        <option value="B">B</option>' +
+                    '                                        <option value="KB">KB</option>' +
+                    '                                        <option value="MB">MB</option>' +
+                    '                                    </select>' +
+                    '                                </td>\n' +
+                    '                                <td><button type="button" class="btn btn-default center-block btn-remove">-</button></td>\n' +
+                    '                            </tr>');
+            row.find(".btn-remove").click(function () {
+                $(this).parent().parent().remove();
+            });
+            row.find("[name=unit]").val(item.unit);
+            $(".fields").find("tbody").append(row);
+        }
+        $(".tags .btn-add").click(function () {
+            addTag()
+        });
+        // if(!data_id) $(".tags .btn-add").click();
+        $(".fields .btn-add").click(function () {
+            addField();
+        });
+        // if(!data_id) $(".fields .btn-add").click();
+        $(".btn-push").click(function () {
+            var meta = {
+                name: $("#metricInputs input[name=name]").val()
+            };
+            if(!meta.name) {
+                alert("Metric Name 不能为空");
+                return;
+            }
+            // var count = 0;
+            var tags = {};
+            var ok = true;
+            $("#metricInputs .tags tbody tr").each(function () {
+                var key = $(this).find("input[name=key]").val();
+                if(!key) {
+                    alert("Tag 的 Key 不能为空");
+                    ok = false;
+                    return;
+                }
+                if(!!tags[key]) {
+                    alert("Tags 出现重复的 Key");
+                    ok = false;
+                    return;
+                }
+                if(key.indexOf(".") >= 0) {
+                    alert("Key 不能包含 .");
+                    ok = false;
+                    return;
+                }
+                tags[key] = { label: $(this).find("input[name=label]").val() , type: "string" };
+                // count++;
+            });
+            if(!ok) return;
+            // if(count <= 0) {
+            //     alert("Tags 至少有一个");
+            //     return;
+            // }
+            meta.tags = JSON.stringify(tags);
+            // count = 0;
+            var fields = {}
+            $("#metricInputs .fields tbody tr").each(function () {
+                var key = $(this).find("input[name=key]").val();
+                if(!key) {
+                    alert("Field 的 Key 不能为空");
+                    ok = false;
+                    return;
+                }
+                if(!!fields[key]) {
+                    alert("Fields 出现重复的 Key");
+                    ok = false;
+                    return;
+                }
+                if(key.indexOf(".") >= 0) {
+                    alert("Key 不能包含 .");
+                    ok = false;
+                    return;
+                }
+                fields[key] = { label: $(this).find("input[name=label]").val() , type: "double", unit: $(this).find("select[name=unit]").val() };
+                // count++;
+            });
+            if(!ok) return;
+            // if(count <= 0) {
+            //     alert("Fields 至少有一个");
+            //     return;
+            // }
+            meta.fields = JSON.stringify(fields);
+            meta.desc = $("#metricInputs [name=desc]").val();
+            // meta.agg1m = !!$("[name=agg_1m]:checked").length;
+            // meta.sourceToEs = !!$("[name=source_to_es]:checked").length;
+            if(!!data_id) {
+                meta.id = data_id;
+                ReqBox.setMetricMeta(meta);
+            } else {
+                ReqBox.addMetricMeta(meta);
+            }
+
+        })
+    })
+</script>
+<style>
+    .table-input input {
+        border-radius: 0px;
+        border-width: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        -webkit-transition: none;
+        -o-transition: none;
+        transition: none;
+    }
+</style>
+
+<h3 style="text-align: center" id="title">添加 Metric 元数据</h3>
+<br/><br/>
+<div id="metricInputs">
+    <form class="form-horizontal" role="form">
+        <div id="option-box">
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" name="name" class="form-control" placeholder="输入Metric的Name">
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-default btn-more">更多选项 </button>
+                    </div>
+                </div>
+            </div>
+            <div class="more-options" style="display: none;">
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-4 control-label">Tags</label>
+                        <div class="col-sm-8">
+                            <table class="table table-bordered table-input tags">
+                                <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>描述性名称</th>
+                                    <th style="width:40px;"><button type="button" class="btn btn-primary center-block btn-add" style="height: 28px; padding: 0 12px;">+</button></th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-4 control-label">Fields</label>
+                        <div class="col-sm-8">
+                            <table class="table table-bordered table-input fields">
+                                <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>描述性名称</th>
+                                    <th>单位</th>
+                                    <th style="width:40px;"><button type="button" class="btn btn-primary center-block btn-add " style="height: 28px; padding: 0 12px;">+</button></th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="col-sm-4 control-label">描述说明</label>
+                        <div class="col-sm-8">
+                            <textarea name="desc" class="form-control" placeholder="输入对Metric的描述信息"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <button type="button" class="btn btn-primary col-sm-offset-4 btn-push" style="width: 100px;margin-top: 15px;">添加</button>
+                <a class="btn btn-warning col-sm-offset-2" style="width: 100px;margin-top: 15px;" href="/metric_meta_list">显示列表</a>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,25 @@
+.DS_Store
+.pampas/
+
+**/.idea/*
+**/target/*
+
+.idea
+*.iml
+*.class
+
+# front dependencies
+**/node_modules
+
+# production
+**/dist
+
+**/public/
+**/vendor/
+**/vendor_modules/
+**/components_vendor/
+**/components_eevee/
+**/app/components_vendor
+**/lib/server/
+**/npm-debug.log*
+**/yarn-error.log*

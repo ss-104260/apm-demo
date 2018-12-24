@@ -1,0 +1,65 @@
+version: '1.0'
+
+envs:
+  PROJECT_NAME: apm-demo
+  PLATFORM: CI
+
+stages:
+- name: repo
+  tasks:
+  - get: repo
+    params:
+      depth: 1
+
+- name: buildpack
+  tasks:
+  - aggregate:
+    - put: package
+      params:
+        only_build: false
+      
+- name: bp-frontend
+  type: buildpack
+  source:
+    context: repo/apm-demo-ui
+    modules:
+    - name: apm-demo-ui
+
+- name: deploy
+  tasks:
+  - put: deploy
+    params:
+      dice_yml: repo/dice.yml
+      time_out: 300
+      replacement_images:
+      - package/pack-result
+
+resources:
+- name: repo
+  type: git
+  source:
+    uri: ((gittar.repo))
+    branch: ((gittar.branch))
+    username: ((gittar.username))
+    password: ((gittar.password))
+
+- name: package
+  type: buildpack
+  source:
+    context: repo
+    modules:
+    - name: apm-demo-api
+      path: apm-demo-api
+    - name: apm-demo-dubbo
+      path: apm-demo-dubbo
+    - name: apm-demo-ui
+      path: apm-demo-ui
+
+- name: deploy
+  type: dice
+  source:
+    app_id: ((dice.id))
+    uri: ((dice.url))
+    operator_id: ((dice.operator.id))
+    workspace: ((dice.env))
+    branch: ((gittar.branch))

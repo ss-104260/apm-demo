@@ -1,0 +1,77 @@
+<li><a href="/" >首页</a></li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">页面<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="/slow_load" >慢加载</a></li>
+        <li><a href="/script_error">脚本错误</a></li>
+    </ul>
+</li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ajax请求<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="#" onclick="ReqBox.slow()">慢响应(10s)</a></li>
+        <li><a href="#" onclick="ReqBox.sleep()">慢响应(15s)</a></li>
+        <li><a href="#" onclick="ReqBox.time()">200请求</a></li>
+        <li><a href="#" onclick="ReqBox.badRequest()">400请求</a></li>
+        <li><a href="#" onclick="ReqBox.errorReqeust()">500请求</a></li>
+        <li><a href="#" onclick="ReqBox.post()">POST请求</a></li>
+        <li><a href="#" onclick="ReqBox.bigSend()">发送大数据</a></li>
+        <li><a href="#" onclick="ReqBox.bigRecv()">接收大数据</a></li>
+    </ul>
+</li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">异常<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="/api/exception/NullPointer" target="_blank">空指针异常</a></li>
+        <li><a href="/api/exception/DivZero" target="_blank">除零异常</a></li>
+        <li><a href="/api/exception/RuntimeError" target="_blank">运行时异常</a></li>
+    </ul>
+</li>
+<li><a href="/http" >Http请求</a></li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">数据库<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="#" onclick="ReqBox.mysqlSleep(3)" >慢SQL(3s)</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlSleep(5)" >慢SQL(5s)</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlSleep(10)" >慢SQL(10s)</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlDBs()" >数据库</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlTables()" >数据表</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlNow()" >时间查询</a></li>
+        <li><a href="#" onclick="ReqBox.mysqlUsers()" >用户列表</a></li>
+        <li><a href="/metric_meta_list" >显示Metric</a></li>
+        <li><a href="/metric_meta" >添加Metric</a></li>
+    </ul>
+</li>
+<li>
+    <a href="/redis" class="dropdown-toggle" data-toggle="dropdown">缓存<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="#" onclick="ReqBox.redisSleep(1)" >慢查询(1s)</a></li>
+        <li><a href="#" onclick="ReqBox.redisSleep(2)" >慢查询(3s)</a></li>
+        <li><a href="#" onclick="ReqBox.redisSleep(6)" >慢查询(6s)</a></li>
+        <li><a href="#" onclick="ReqBox.redisWait(1)" >等待(1s)</a></li>
+        <li><a href="#" onclick="ReqBox.redisWait(2)" >等待(3s)</a></li>
+        <li><a href="#" onclick="ReqBox.redisWait(6)" >等待(6s)</a></li>
+        <li><a href="/redis" >查询和设置</a></li>
+        <li><a href="#" onclick="ReqBox.redisNow()" >查询时间</a></li>
+    </ul>
+</li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dubbo调用<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="/api/dubbo/hello" >Hello</a></li>
+        <li><a href="/api/dubbo/exception" >异常</a></li>
+        <li><a href="#" onclick="ReqBox.dubboMysqlUsers()"  >数据库用户列表</a></li>
+        <li><a href="#" onclick="ReqBox.dubboRedisGet('test-key')"  >获取Redis键值</a></li>
+        <li><a href="/api/dubbo/http/get?url=http://www.baidu.com" >调用Dubbo请求百度</a></li>
+    </ul>
+</li>
+<li>
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">文件操作<b class="caret"></b></a>
+    <ul class="dropdown-menu">
+        <li><a href="/api/file/write?size=10240" >写文件（10kb）</a></li>
+        <li><a href="/api/file/write?size=1048576" >写文件（1mb）</a></li>
+        <li><a href="/api/file/write?size=5242880" >写文件（5mb）</a></li>
+        <li><a href="/api/file/read" >读文件</a></li>
+    </ul>
+</li>
+<li><a href="/random" >随机页面</a></li>

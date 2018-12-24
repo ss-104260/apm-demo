@@ -1,0 +1,115 @@
+<% layout('layout/_layout') -%>
+<div>
+    <h3>环境信息</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>TERMINUS_KEY</td>
+            <td id="config_terminusKey"></td>
+        </tr>
+        <tr>
+            <td>TERMINUS_TA_ENABLE</td>
+            <td id="config_taEnable"></td>
+        </tr>
+        <tr>
+            <td>TERMINUS_TA_URL</td>
+            <td id="config_taUrl"></td>
+        </tr>
+        <tr>
+            <td>TERMINUS_TA_COLLECTOR_URL</td>
+            <td id="config_taCollectUrl"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h3>IP 信息</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>IP</td>
+            <td id="ta_ip"></td>
+        </tr>
+        <tr>
+            <td>国家</td>
+            <td id="ta_location_country"></td>
+        </tr>
+        <tr>
+            <td>省</td>
+            <td id="ta_location_state"></td>
+        </tr>
+        <tr>
+            <td>市</td>
+            <td id="ta_location_city"></td>
+        </tr>
+        <tr>
+            <td>供应商</td>
+            <td id="ta_location_isp"></td>
+        </tr>
+        </tbody>
+    </table>
+    <h3>UserAgent</h3>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Key</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>浏览器</td>
+            <td id="ta_ua_browser"></td>
+        </tr>
+        <tr>
+            <td>浏览器版本</td>
+            <td id="ta_ua_browserVersion"></td>
+        </tr>
+        <tr>
+            <td>操作系统</td>
+            <td id="ta_ua_os"></td>
+        </tr>
+        <tr>
+            <td>操作系统版本</td>
+            <td id="ta_ua_osVersion"></td>
+        </tr>
+        <tr>
+            <td>设备</td>
+            <td id="ta_ua_device"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<script>
+    $(function() {
+        $("#config_terminusKey").text(_taConfig.ak);
+        $("#config_taEnable").text(_taConfig.enabled);
+        $("#config_taUrl").text(_taConfig.url);
+        $("#config_taCollectUrl").text(_taConfig.collectorUrl);
+        ReqBox.request("/ta/info", {
+            success: function(resp) {
+                var data = JSON.parse(resp);
+                $("#ta_ip").text(data["ip"]);
+                $("#ta_location_country").text(data.ip);
+                $("#ta_location_state").text(data.location.state);
+                $("#ta_location_city").text(data.location.city);
+                $("#ta_location_isp").text(data.location.isp);
+                $("#ta_ua_browser").text(data.ua.browser);
+                $("#ta_ua_browserVersion").text(data.ua.browserVersion);
+                $("#ta_ua_os").text(data.ua.os);
+                $("#ta_ua_osVersion").text(data.ua.osVersion);
+                $("#ta_ua_device").text(data.ua.device);
+            }
+        });
+    })
+</script>
