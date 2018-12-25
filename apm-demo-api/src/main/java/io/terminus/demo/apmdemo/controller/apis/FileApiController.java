@@ -10,14 +10,25 @@ import java.nio.file.Paths;
 @RequestMapping(path = "/api/file", method = RequestMethod.GET)
 public class FileApiController {
 
-    static final String folder = System.getProperty("java.io.tmpdir");
+    static final String folder = ".apm-demo"; // System.getProperty("java.io.tmpdir");
+    static {
+        File dir = new File(folder);
+        System.out.println("java.io.tmpdir = " + dir.getAbsoluteFile());
+        if(!dir.exists()) {
+            if(!dir.mkdirs()) {
+                System.out.println("mkdirs field");
+            }
+        }
+    }
 
     @GetMapping("/read")
     @ResponseBody
     public Object readFile() {
-        File dir = Paths.get(folder,"apm-demo").toFile();
+        File dir = new File(folder);
         if(!dir.exists()) {
-            dir.mkdirs();
+           if(!dir.mkdirs()) {
+               return new Dic().set("error", "mkdirs field");
+           }
         }
         File file = Paths.get(dir.getPath(), "test.txt").toFile();
         int readtotal = 0;
@@ -51,15 +62,14 @@ public class FileApiController {
         if(size > 5*1024*1024) {
             return new Dic().set("error","size too large");
         }
-        File dir = Paths.get(folder,"apm-demo").toFile();
+        File dir = new File(folder);
         if(!dir.exists()) {
-            dir.mkdirs();
+            if(!dir.mkdirs()) {
+                return new Dic().set("error", "mkdirs field");
+            }
         }
         File file = Paths.get(dir.getPath(), "test.txt").toFile();
         int writetotal = 0;
-        if(!file.exists()) {
-            return new Dic().set("write", writetotal);
-        }
         OutputStream out = null;
         try {
             byte[] buffer = "abcdefg".getBytes("UTF-8");
