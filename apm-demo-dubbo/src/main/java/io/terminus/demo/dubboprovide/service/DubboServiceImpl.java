@@ -47,7 +47,7 @@ public class DubboServiceImpl implements DubboService {
         Jedis jedis = null;
         try {
             jedis = redisService.getJedis();
-            return jedis.get(key);
+            return jedis.get("apm-demo-"+key);
         } finally {
             if(jedis != null) jedis.close();
         }

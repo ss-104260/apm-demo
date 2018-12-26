@@ -24,7 +24,7 @@ public class RedisApiController {
         Jedis jedis = null;
         try {
             jedis = redisService.getJedis();
-            return jedis.get(key);
+            return jedis.get("apm-demo-"+key);
         } finally {
             if(jedis != null) jedis.close();
         }
@@ -36,7 +36,7 @@ public class RedisApiController {
         Jedis jedis = null;
         try {
             jedis = redisService.getJedis();
-            jedis.set(key, value);
+            jedis.set("apm-demo-"+key, value);
             return "OK";
         } finally {
             if(jedis != null) jedis.close();
