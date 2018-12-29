@@ -1,6 +1,8 @@
 package io.terminus.demo.apmdemo.controller.apis;
 
 import io.terminus.demo.utils.Dic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping(path = "/api/exception", method = RequestMethod.GET)
 public class ExceptionApiController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ExceptionApiController.class);
 
     @GetMapping("/NullPointer")
     @ResponseBody
@@ -28,7 +32,11 @@ public class ExceptionApiController {
     @GetMapping("/RuntimeError")
     @ResponseBody
     public void runtimeError() {
-        throw new RuntimeException("this is test exception");
+        try {
+            throw new RuntimeException("this is test exception");
+        } catch (RuntimeException e) {
+            logger.error("runtime exception", e);
+        }
     }
 
 }
