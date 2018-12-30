@@ -4,6 +4,8 @@ const path = require('path');
 var request = require('request');
 const config = require(path.join(__dirname, 'config'));
 const app = express();
+const tlog = require('@terminus/log');
+const log = new tlog('DEBUG');
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');
@@ -19,10 +21,12 @@ app.use(bodyParser.raw({
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const pageData = { title: config.title, apiURL: config.apiURL };
-app.get('/',function(req, res, next) {
+app.get('/', function (req, res, next) {
+    log.info('render index page.');
     res.render('index', pageData);
 });
-app.get('/:page',function(req, res, next) {
+app.get('/:page', function (req, res, next) {
+    log.info('render ' + req.params.page + ' page.');
     res.render(req.params.page, pageData);
 });
 
@@ -32,7 +36,7 @@ function getClientIP(req) {
         req.socket.remoteAddress ||
         req.connection.socket.remoteAddress;
 };
-app.all('/api/*',function(req, res, next) {
+app.all('/api/*', function (req, res, next) {
     var options = {
         url: config.apiURL + req.url,
         method: req.method,
@@ -43,15 +47,21 @@ app.all('/api/*',function(req, res, next) {
             'X-Real-IP': getClientIP(req),
         },
     };
-    if(Buffer.isBuffer(req.body)) {
+    if (Buffer.isBuffer(req.body)) {
         options.body = req.body;
     }
-    request(options, function(error, response, body) {
+    log.info('begin request ' + options.url);
+    request(options, function (error, response, body) {
         if (error) {
+            log.info('request exception. ' + error);
             res.send({ success: false, error: error });
             return;
         }
+        log.info('end request. status: ' + response.statusCode);
         res.status(response.statusCode).send(response.body);
     });
 });
-app.listen(3000, () => console.log('apm-demo-ui listening on port 3000!'))
+
+module.exports = run = function(){
+    app.listen(3000, () => log.info('apm-demo-ui listening on port 3000!'));
+}

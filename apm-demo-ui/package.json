@@ -5,12 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "node Pampasfile-default",
     "build": "echo 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@terminus/log": "^1.4.2",
     "ejs-locals": "^1.0.2",
     "express": "^4.16.4",
     "request": "^2.88.0"
