@@ -38,6 +38,6 @@ public class MockMetricService {
             metricService.send(event);
         }
 
-        log.info("Send APM-Demo-Async-Mock.");
+        log.info("Send apm-Demo-Async-Mock.");
     }
 }
