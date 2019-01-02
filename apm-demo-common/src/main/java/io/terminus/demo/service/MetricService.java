@@ -49,7 +49,7 @@ public class MetricService {
     private String serviceName=getEnv("DICE_SERVICE");
 
     private String workspace=getEnv("DICE_WORKSPACE");
-    
+
     private String terminusKey=getEnv("TERMINUS_KEY");
 
     public MetricService() throws SocketException {

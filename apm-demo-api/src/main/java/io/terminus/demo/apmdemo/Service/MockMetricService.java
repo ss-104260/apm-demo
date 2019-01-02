@@ -27,18 +27,17 @@ public class MockMetricService {
 
     @Scheduled(initialDelay = 60000, fixedDelay = 10000)
     public void mockMetric() {
-        MetricEvent[] metricEvents = new MetricEvent[1000];
         for (int i = 0; i < 1000; i++) {
             MetricEvent event = new MetricEvent();
             event.setName("APM-Demo-Async-Mock");
             event.setTimestamp(DateUtils.currentTimeNano());
-            metricEvents[i] = event;
             Map<String, Object> fields = new HashMap<>();
             fields.put("random", i);
             event.setFields(fields);
             event.setTags(new HashMap<>());
+            metricService.send(event);
         }
-        metricService.send(metricEvents);
+
         log.info("Send APM-Demo-Async-Mock.");
     }
 }
