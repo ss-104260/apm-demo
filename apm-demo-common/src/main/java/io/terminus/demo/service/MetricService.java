@@ -28,35 +28,29 @@ public class MetricService {
     private InetSocketAddress socketAddress;
     private DatagramSocket socket;
 
-    @Value("${host}")
-    private String host;
+    private static String getEnv(String key) {
+        return System.getenv(key);
+    }
 
-    @Value("${dice.project}")
-    private String projectId;
+    private String host= getEnv("HOST");
 
-    @Value("${dice.project.name}")
-    private String projectName;
+    private String projectId = getEnv("DICE_PROJECT");
 
-    @Value("${dice.application}")
-    private String applicationName;
+    private String projectName=getEnv("DICE_PROJECT_NAME");
 
-    @Value("${dice.application.name}")
-    private String applicationId;
+    private String applicationName=getEnv("DICE_APPLICATION");
 
-    @Value("${dice.runtime}")
-    private String runtimeId;
+    private String applicationId=getEnv("DICE_APPLICATION_NAME");
 
-    @Value("${dice.runtime.name}")
-    private String runtimeName;
+    private String runtimeId=getEnv("DICE_RUNTIME");
 
-    @Value("${dice.service}")
-    private String serviceName;
+    private String runtimeName=getEnv("DICE_RUNTIME_NAME");
 
-    @Value("${dice.workspace}")
-    private String workspace;
+    private String serviceName=getEnv("DICE_SERVICE");
 
-    @Value("${terminus.key}")
-    private String terminusKey;
+    private String workspace=getEnv("DICE_WORKSPACE");
+    
+    private String terminusKey=getEnv("TERMINUS_KEY");
 
     public MetricService() throws SocketException {
         this.socketAddress = new InetSocketAddress(host, 7082);
