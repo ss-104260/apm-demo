@@ -5,6 +5,7 @@ import io.terminus.demo.dao.HttpService;
 import io.terminus.demo.dubboprovide.dao.MysqlMapper;
 import io.terminus.demo.dubboprovide.dao.RedisService;
 import io.terminus.demo.rpc.DubboService;
+import io.terminus.demo.service.MetricService;
 import io.terminus.demo.utils.Dic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,9 @@ public class DubboServiceImpl implements DubboService {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private MetricService metricService;
 
     @Override
     public Dic hello() {

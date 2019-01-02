@@ -15,4 +15,6 @@ public interface DubboService {
     String redisGet(String key) throws Exception;
 
     HttpService.Response httpRequest(String url) throws Exception;
+
+    
 }

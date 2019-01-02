@@ -2,7 +2,9 @@ package io.terminus.demo.apmdemo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @SpringBootApplication(scanBasePackages = "io.terminus.demo")
 public class ApmDemoApplication {
 
