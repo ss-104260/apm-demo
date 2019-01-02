@@ -5,6 +5,7 @@ import io.terminus.demo.service.MetricService;
 import io.terminus.demo.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -22,12 +23,15 @@ import java.util.Map;
 @Async
 public class MockMetricService {
 
+    @Value("${mock.metric.count}")
+    private int count;
+    
     @Autowired
     private MetricService metricService;
 
     @Scheduled(initialDelay = 60000, fixedDelay = 10000)
     public void mockMetric() {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < count; i++) {
             MetricEvent event = new MetricEvent();
             event.setName("APM-Demo-Async-Mock");
             event.setTimestamp(DateUtils.currentTimeNano());
