@@ -15,7 +15,7 @@ public class LogRequest {
 
     private String id;
 
-    private String Content;
+    private String content;
 
     private long timestamp;
 
