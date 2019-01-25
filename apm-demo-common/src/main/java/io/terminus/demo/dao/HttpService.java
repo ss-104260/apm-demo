@@ -9,6 +9,7 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.config.SocketConfig;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
@@ -41,7 +42,7 @@ public class HttpService {
     public static <T> HttpResponse post(String url, T data) throws IOException {
         HttpPost httpPost = new HttpPost(url);
         httpPost.setConfig(buildConfig());
-        httpPost.setEntity(new StringEntity(gson.toJson(data), "application/json"));
+        httpPost.setEntity(new StringEntity(gson.toJson(data), ContentType.APPLICATION_JSON));
         return httpClient.execute(httpPost);
     }
 

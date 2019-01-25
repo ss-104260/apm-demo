@@ -30,7 +30,7 @@ public class MockHttpClient {
             for (int i = 0; i < 20; i++) {
                 LogRequest log = new LogRequest();
                 log.setId(UUID.randomUUID().toString());
-                log.setSource("mock");
+                log.setSource("container");
                 log.setContent("William Shakespeare was a renowned English poet, playwright, and actor born in 1564 in Stratford-upon-Avon. His birthday is most commonly celebrated on 23 April (see When was Shakespeare born), which is also believed to be the date he died on in 1616.");
                 log.setStream("stdout");
                 Map<String, String> tags = new HashMap<>();
@@ -40,7 +40,7 @@ public class MockHttpClient {
                 logs.add(log);
             }
             try {
-                HttpService.post(collector + "/collect/logs/job", logs);
+                HttpService.post(collector + "/collect/logs/container", logs);
             } catch (IOException e) {
                 log.error("mock log error.", e);
             }
