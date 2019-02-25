@@ -1,4 +1,4 @@
-package io.terminus.demo.model;
+package io.terminus.demo.mock;
 
 import lombok.Data;
 

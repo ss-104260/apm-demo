@@ -1,9 +1,9 @@
 package io.terminus.demo.service;
 
 import com.google.gson.Gson;
-import io.terminus.demo.model.MetricEvent;
+import io.terminus.demo.mock.MetricEvent;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -32,25 +32,35 @@ public class MetricService {
         return System.getenv(key);
     }
 
-    private String host= getEnv("HOST");
+    @Getter
+    private String host = getEnv("HOST");
 
+    @Getter
     private String projectId = getEnv("DICE_PROJECT");
 
-    private String projectName=getEnv("DICE_PROJECT_NAME");
+    @Getter
+    private String projectName = getEnv("DICE_PROJECT_NAME");
 
-    private String applicationName=getEnv("DICE_APPLICATION");
+    @Getter
+    private String applicationName = getEnv("DICE_APPLICATION");
 
-    private String applicationId=getEnv("DICE_APPLICATION_NAME");
+    @Getter
+    private String applicationId = getEnv("DICE_APPLICATION_NAME");
 
-    private String runtimeId=getEnv("DICE_RUNTIME");
+    @Getter
+    private String runtimeId = getEnv("DICE_RUNTIME");
 
-    private String runtimeName=getEnv("DICE_RUNTIME_NAME");
+    @Getter
+    private String runtimeName = getEnv("DICE_RUNTIME_NAME");
 
-    private String serviceName=getEnv("DICE_SERVICE");
+    @Getter
+    private String serviceName = getEnv("DICE_SERVICE");
 
-    private String workspace=getEnv("DICE_WORKSPACE");
+    @Getter
+    private String workspace = getEnv("DICE_WORKSPACE");
 
-    private String terminusKey=getEnv("TERMINUS_KEY");
+    @Getter
+    private String terminusKey = getEnv("TERMINUS_KEY");
 
     public MetricService() throws SocketException {
         this.socketAddress = new InetSocketAddress(host, 7082);

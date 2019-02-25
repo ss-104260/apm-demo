@@ -20,8 +20,9 @@ public class MockApiController {
     @ResponseBody
     public String log(
             @RequestParam(value = "thread", required = false, defaultValue = "10") Integer thread,
-            @RequestParam(value = "count", required = false, defaultValue = "100") Integer count) throws Exception {
-        mockHttpClient.mockLog(thread, count);
+            @RequestParam(value = "request", required = false, defaultValue = "100") Integer request,
+            @RequestParam(value = "sizePerRequest", required = false, defaultValue = "1") Integer sizePerRequest) throws Exception {
+        mockHttpClient.mockLog(thread, request, sizePerRequest);
         return "OK";
     }
 }
