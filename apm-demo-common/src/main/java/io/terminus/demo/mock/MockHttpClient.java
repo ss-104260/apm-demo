@@ -1,6 +1,7 @@
 package io.terminus.demo.mock;
 
 import io.terminus.demo.dao.HttpService;
+import io.terminus.demo.service.MetricService;
 import io.terminus.demo.service.MockService;
 import io.terminus.demo.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * @author: liuhaoyang
- * @create: 2019-01-25 11:03
+ *
  **/
 @Slf4j
 @Service
@@ -24,6 +24,9 @@ public class MockHttpClient {
 
     @Autowired
     private MockService mockService;
+
+    @Autowired
+    private MetricService metricService;
 
     public void mockLog(int thread, int request, int sizePerRequest) {
         Runnable task = () -> {
@@ -64,12 +67,55 @@ public class MockHttpClient {
                 fields.put("duration", 3000);
                 event.setFields(fields);
                 Map<String, String> tags = new HashMap<>();
-
-
+                tags.put("trace_id", UUID.randomUUID().toString());
+                tags.put("span_id", UUID.randomUUID().toString());
+                tags.put("operation_name", "mock-span");
+                tags.put("service_name", metricService.getServiceName());
+                tags.put("terminus_key", metricService.getTerminusKey());
+                tags.put("runtime_name", metricService.getRuntimeName());
+                tags.put("application_name", metricService.getApplicationName());
+                tags.put("application_id", metricService.getApplicationId());
+                tags.put("runtime_id", metricService.getRuntimeId());
+                tags.put("project_id", metricService.getProjectId());
                 metricEvents.add(event);
             }
             try {
-                HttpService.post(collector + "/collect/trace", metricEvents);
+                Map<String, Object> body = new HashMap<>();
+                body.put("trace", metricEvents);
+                HttpService.post(collector + "/collect/trace", body);
+            } catch (IOException e) {
+                log.error("mock trace error.", e);
+            }
+        };
+        mockService.mock(thread, request, task);
+    }
+
+    public void mockMetric(int thread, int request, int sizePerRequest) {
+        Runnable task = () -> {
+            List<MetricEvent> metricEvents = new ArrayList<>();
+            for (int i = 0; i < sizePerRequest; i++) {
+                MetricEvent event = new MetricEvent();
+                long timeStamp = DateUtils.currentTimeNano();
+                event.setName("mock-metrics");
+                event.setTimestamp(timeStamp);
+                Map<String, Object> fields = new HashMap<>(1);
+                fields.put("duration", 3000);
+                event.setFields(fields);
+                Map<String, String> tags = new HashMap<>();
+                tags.put("custum_key", UUID.randomUUID().toString());
+                tags.put("service_name", metricService.getServiceName());
+                tags.put("terminus_key", metricService.getTerminusKey());
+                tags.put("runtime_name", metricService.getRuntimeName());
+                tags.put("application_name", metricService.getApplicationName());
+                tags.put("application_id", metricService.getApplicationId());
+                tags.put("runtime_id", metricService.getRuntimeId());
+                tags.put("project_id", metricService.getProjectId());
+                metricEvents.add(event);
+            }
+            try {
+                Map<String, Object> body = new HashMap<>();
+                body.put("metrics", metricEvents);
+                HttpService.post(collector + "/collect/metrics", body);
             } catch (IOException e) {
                 log.error("mock trace error.", e);
             }

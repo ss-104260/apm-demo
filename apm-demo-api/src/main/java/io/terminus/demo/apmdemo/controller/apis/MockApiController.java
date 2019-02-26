@@ -25,4 +25,24 @@ public class MockApiController {
         mockHttpClient.mockLog(thread, request, sizePerRequest);
         return "OK";
     }
+
+    @GetMapping("/trace")
+    @ResponseBody
+    public String trace(
+            @RequestParam(value = "thread", required = false, defaultValue = "10") Integer thread,
+            @RequestParam(value = "request", required = false, defaultValue = "100") Integer request,
+            @RequestParam(value = "sizePerRequest", required = false, defaultValue = "1") Integer sizePerRequest) throws Exception {
+        mockHttpClient.mockTrace(thread, request, sizePerRequest);
+        return "OK";
+    }
+
+    @GetMapping("/metrics")
+    @ResponseBody
+    public String metrics(
+            @RequestParam(value = "thread", required = false, defaultValue = "10") Integer thread,
+            @RequestParam(value = "request", required = false, defaultValue = "100") Integer request,
+            @RequestParam(value = "sizePerRequest", required = false, defaultValue = "1") Integer sizePerRequest) throws Exception {
+        mockHttpClient.mockMetric(thread, request, sizePerRequest);
+        return "OK";
+    }
 }
