@@ -20,6 +20,7 @@ public class ExceptionFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception ex) {
             log.error("doFilter exception.", ex);
+            throw ex;
         } finally {
             log.info("Filter doingFilter");
         }
