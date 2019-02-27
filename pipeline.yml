@@ -68,16 +68,10 @@
       source: 
         context: "repo/apm-demo-ui"
         modules: 
-          - 
-            name: "apm-demo-ui"
-          - 
+          - name: "apm-demo-ui"
             path: "."
-          - 
-            image: 
-              - 
-                name: "demo-ui"
-          - 
-            bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termnodejs.git"
-          - 
-            bp_ver: "feature/agent-preview"
+            image:
+              name: "demo-ui"
+        bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termnodejs.git"
+        bp_ver: ((bp.ver))
   envs: {}
