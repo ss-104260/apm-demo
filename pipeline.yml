@@ -9,7 +9,6 @@ stages:
     tasks:
       - aggregate:
           - put: "package-backend"
-          - put: "package-ui"
   - name: "deploy"
     tasks:
       - put: "deploy"
@@ -41,7 +40,7 @@ resources:
         - bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termjava.git"
         - bp_ver: "feature/agent-preview"
         - bp_args:
-            USE_PREVIEW_AGENT: true
+            USE_PREVIEW_AGENT: "true"
   - name: "deploy"
     type: "dice"
     source:
@@ -50,17 +49,5 @@ resources:
       operator_id: "((dice.operator.id))"
       workspace: "((dice.env))"
       branch: "((gittar.branch))"
-  - type: "buildpack"
-    name: "package-ui"
-    params: {}
-    source:
-      context: "repo/apm-demo-ui"
-      modules:
-        - name: "apm-demo-ui"
-        - path: "."
-        - image:
-            - name: "demo-ui"
-        - bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termnodejs.git"
-        - bp_ver: "feature/agent-preview"
 envs: {}
 
