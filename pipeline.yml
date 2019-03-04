@@ -35,8 +35,6 @@ resources:
           path: "apm-demo-api"
         - name: "apm-demo-dubbo"
           path: "apm-demo-dubbo"
-        - image:
-            - name: "demo-backend"
         - bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termjava.git"
         - bp_ver: "feature/agent-preview"
         - bp_args:
