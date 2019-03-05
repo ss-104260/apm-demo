@@ -1,0 +1,35 @@
+---
+  stages: 
+    - 
+      name: "repo"
+      tasks: 
+        - 
+          aggregate: 
+            - 
+              get: "repo"
+    - 
+      name: "1231"
+      tasks: 
+        - 
+          aggregate: 
+            - 
+              put: "1231"
+  resources: 
+    - 
+      type: "git"
+      name: "repo"
+      params: {}
+      source: 
+        uri: "12331"
+    - 
+      type: "it"
+      name: "1231"
+      source: 
+        context: "1232"
+        endpoint: "((oss.endpoint))"
+        access_key: "((oss.access.key))"
+        secret_key: "((oss.secret.key)"
+        bucket: "((oss.bucket))"
+        name: "12313"
+  envs: {}
+  version: "1.0"
