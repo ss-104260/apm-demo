@@ -1,6 +1,5 @@
 ---
   version: 2
-  name: apm-demo
   services: 
     apm-demo-api: 
       health_check: 
