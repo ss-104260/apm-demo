@@ -9,6 +9,9 @@ stages:
     tasks:
       - aggregate:
           - put: "package-backend"
+          - put: "代码质量分析"
+            params:
+              project_name: "代码质量分析"
   - name: "deploy"
     tasks:
       - put: "deploy"
@@ -47,5 +50,8 @@ resources:
       operator_id: "((dice.operator.id))"
       workspace: "((dice.env))"
       branch: "((gittar.branch))"
+  - type: "sonar"
+    name: "代码质量分析"
+    source:
+      context: "repo"
 envs: {}
-
