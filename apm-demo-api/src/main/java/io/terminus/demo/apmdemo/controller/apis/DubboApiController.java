@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping(path = "/api/dubbo", method = RequestMethod.GET)
 public class DubboApiController {
 
-    @RpcConsumer
+    // @RpcConsumer
     private DubboService dubboService;
 
     @GetMapping("/hello")

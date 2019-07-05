@@ -63,16 +63,18 @@ public class MetricService {
     private String terminusKey = getEnv("TERMINUS_KEY");
 
     public MetricService() throws SocketException {
-//        this.socketAddress = new InetSocketAddress(host, 7082);
-//        log.info("Udp sender address " + socketAddress.toString());
-//        try {
-//            this.socket = new DatagramSocket();
-//            init = true;
-//        } catch (SocketException e) {
-//            init = false;
-//            log.error("Bind udp client address fail.", e);
-//            throw e;
-//        }
+        if(host != null) {
+            this.socketAddress = new InetSocketAddress(host, 7082);
+            log.info("Udp sender address " + socketAddress.toString());
+            try {
+                this.socket = new DatagramSocket();
+                init = true;
+            } catch (SocketException e) {
+                init = false;
+                log.error("Bind udp client address fail.", e);
+                throw e;
+            }
+        }
     }
 
     public void send(MetricEvent... metrics) {
