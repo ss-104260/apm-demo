@@ -15,7 +15,7 @@
         disk: 0
       expose: 
         - 8095
-        
+
   addons:
     terminus-roost:
       plan: "terminus-roost:professional"

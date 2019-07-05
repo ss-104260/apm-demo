@@ -33,10 +33,6 @@ resources:
       modules:
         - name: "apm-demo-api"
           path: "apm-demo-api"
-      bp_repo: "http://git.terminus.io/buildpacks/dice-bpack-termjava.git"
-      bp_ver: "feature/agent-preview"
-      bp_args:
-        USE_PREVIEW_AGENT: "true"
   - name: "deploy"
     type: "dice"
     source:
