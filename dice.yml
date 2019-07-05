@@ -27,6 +27,8 @@
         disk: 0
       expose: 
         - 8095
+      depends_on:
+        - apm-demo-dubbo
   addons:
     terminus-roost:
       plan: "terminus-roost:professional"
@@ -38,22 +40,3 @@
       plan: "redis:basic"
       options: 
         version: "3.2.12"
-  environments: 
-    production: 
-      services:
-        apm-demo-dubbo:
-          deployments:
-            replicas: 1
-          resources:
-            cpu: 1
-            mem: 512
-            disk: 0
-        apm-demo-api: 
-          deployments: 
-            replicas: 2
-          resources: 
-            cpu: 1
-            mem: 512
-            disk: 0
-
-  envs: {}
