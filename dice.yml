@@ -27,9 +27,9 @@
         cpu: 0.1
         mem: 512
         disk: 0
-  addons: 
-    zookeeper: 
-      plan: "zookeeper:professional"
+  addons:
+    terminus-roost:
+      plan: "terminus-roost:professional"
     mysql: 
       plan: "mysql:basic"
       options: 
