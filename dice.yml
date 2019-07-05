@@ -15,8 +15,7 @@
         disk: 0
       expose: 
         - 8095
-      depends_on:
-        - apm-demo-dubbo
+        
   addons:
     terminus-roost:
       plan: "terminus-roost:professional"
