@@ -10,7 +10,7 @@
       deployments: 
         replicas: 1
       resources: 
-        cpu: 0.1
+        cpu: 1
         mem: 512
         disk: 0
       expose: 
@@ -24,7 +24,7 @@
       deployments: 
         replicas: 1
       resources: 
-        cpu: 0.1
+        cpu: 1
         mem: 512
         disk: 0
   addons:
@@ -45,14 +45,14 @@
           deployments: 
             replicas: 2
           resources: 
-            cpu: 0.1
+            cpu: 1
             mem: 512
             disk: 0
         apm-demo-dubbo: 
           deployments: 
             replicas: 1
           resources: 
-            cpu: 0.1
+            cpu: 1
             mem: 512
             disk: 0
   envs: {}
