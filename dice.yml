@@ -1,6 +1,18 @@
 ---
   version: 2
-  services: 
+  services:
+    apm-demo-dubbo:
+      health_check:
+        exec:
+          cmd: "echo 1"
+      ports:
+      - 20880
+      deployments:
+        replicas: 1
+      resources:
+        cpu: 1
+        mem: 512
+        disk: 0
     apm-demo-api: 
       health_check: 
         exec: 
@@ -15,18 +27,6 @@
         disk: 0
       expose: 
         - 8095
-    apm-demo-dubbo: 
-      health_check: 
-        exec: 
-          cmd: "echo 1"
-      ports: 
-        - 20880
-      deployments: 
-        replicas: 1
-      resources: 
-        cpu: 1
-        mem: 512
-        disk: 0
   addons:
     terminus-roost:
       plan: "terminus-roost:professional"
@@ -40,7 +40,14 @@
         version: "3.2.12"
   environments: 
     production: 
-      services: 
+      services:
+        apm-demo-dubbo:
+          deployments:
+            replicas: 1
+          resources:
+            cpu: 1
+            mem: 512
+            disk: 0
         apm-demo-api: 
           deployments: 
             replicas: 2
@@ -48,11 +55,5 @@
             cpu: 1
             mem: 512
             disk: 0
-        apm-demo-dubbo: 
-          deployments: 
-            replicas: 1
-          resources: 
-            cpu: 1
-            mem: 512
-            disk: 0
+
   envs: {}
