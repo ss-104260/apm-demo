@@ -45,12 +45,12 @@
         <dependency>
             <groupId>io.terminus.boot.rpc</groupId>
             <artifactId>rpc-common</artifactId>
-            <version>1.0.5.RELEASE</version>
+            <version>1.2.4.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>io.terminus.boot.rpc</groupId>
             <artifactId>rpc-dubbo</artifactId>
-            <version>1.0.7.RELEASE</version>
+            <version>1.2.4.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.101tec</groupId>
