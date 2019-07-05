@@ -9,9 +9,6 @@ stages:
     tasks:
       - aggregate:
           - put: "package-backend"
-          - put: "代码质量分析"
-            params:
-              project_name: "代码质量分析"
   - name: "deploy"
     tasks:
       - put: "deploy"
