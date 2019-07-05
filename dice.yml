@@ -1,18 +1,6 @@
 ---
   version: 2
   services:
-    apm-demo-dubbo:
-      health_check:
-        exec:
-          cmd: "echo 1"
-      ports:
-      - 20880
-      deployments:
-        replicas: 1
-      resources:
-        cpu: 1
-        mem: 512
-        disk: 0
     apm-demo-api: 
       health_check: 
         exec: 
