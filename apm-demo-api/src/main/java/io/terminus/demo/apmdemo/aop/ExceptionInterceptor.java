@@ -6,6 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * @author: liuhaoyang
@@ -17,6 +18,13 @@ public class ExceptionInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("Interceptor preHandle");
+        log.info("RequestURL =====> {}", request.getRequestURI());
+        log.info("QueryString =====> {}", request.getQueryString());
+        Enumeration<String> headers = request.getHeaderNames();
+        while (headers.hasMoreElements()) {
+            String h = headers.nextElement();
+            log.info("Header =====> {} : {}", h, request.getHeader(h));
+        }
         return true;
     }
 
