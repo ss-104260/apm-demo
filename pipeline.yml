@@ -1,44 +1,36 @@
-version: "1.0"
+version: "1.1"
 stages:
-  - name: "repo"
-    tasks:
-      - get: "repo"
-        params:
-          depth: 1
-  - name: "buildpack"
-    tasks:
-      - aggregate:
-          - put: "package-backend"
-  - name: "deploy"
-    tasks:
-      - put: "deploy"
-        params:
-          dice_yml: "repo/dice.yml"
-          time_out: 300
-          replacement_images:
-            - "package/pack-result"
-            - "package-ui/pack-result"
-resources:
-  - name: "repo"
-    type: "git"
-    source:
-      uri: "((gittar.repo))"
-      branch: "((gittar.branch))"
-      username: "((gittar.username))"
-      password: "((gittar.password))"
-  - name: "package-backend"
-    type: "buildpack"
-    source:
-      context: "repo"
-      modules:
-        - name: "apm-demo-api"
-          path: "apm-demo-api"
-  - name: "deploy"
-    type: "dice"
-    source:
-      app_id: "((dice.id))"
-      uri: "((dice.url))"
-      operator_id: "((dice.operator.id))"
-      workspace: "((dice.env))"
-      branch: "((gittar.branch))"
-envs: {}
+- stage:
+  - git-checkout:
+      alias: repo
+      params:
+        depth: 1
+- stage:
+  - buildpack:
+      alias: package-backend
+      params:
+        context: ${repo}
+        modules:
+        - name: apm-demo-api
+          path: apm-demo-api
+- stage:
+  - release:
+      alias: release
+      params:
+        dice_development_yml: ${repo}/dice_development.yml
+        dice_production_yml: ${repo}/dice_production.yml
+        dice_staging_yml: ${repo}/dice_staging.yml
+        dice_test_yml: ${repo}/dice_test.yml
+        dice_yml: ${repo}/dice.yml
+        replacement_images:
+        - ${package-backend}/pack-result
+- stage:
+  - dice:
+      alias: deploy
+      params:
+        dice_yml: ${repo}/dice.yml
+        release_id_path: ${release}
+        replacement_images:
+        - package/pack-result
+        - package-ui/pack-result
+        time_out: 300
