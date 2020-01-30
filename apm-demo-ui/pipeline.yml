@@ -3,28 +3,26 @@ stages:
 - stage:
   - git-checkout:
       alias: repo
+      description: ""
       params:
         depth: 1
 - stage:
-    - buildpack:
-        alias: package-ui
-        params:
-          bp_args:
-            DEP_CMD: "yum install -y gcc-c++ && yum install -y make && npm ci"
-          context: ${repo}/apm-demo-ui
-          modules:
-            - name: apm-demo-ui
-              path: apm-demo-ui
   - buildpack:
-      alias: package-backend
+      alias: package-ui
+      description: ""
       params:
+        bp_args:
+          DEP_CMD: "yum install -y gcc-c++ && yum install -y make && npm ci"
+        bp_repo: http://git.terminus.io/buildpacks/dice-bpack-termnodejs.git
+        bp_ver: feature/agent-preview
         context: ${repo}
         modules:
-        - name: apm-demo-api
-          path: apm-demo-api
+        - name: apm-demo-ui
+          path: .
 - stage:
   - release:
       alias: release
+      description: ""
       params:
         dice_development_yml: ${repo}/dice_development.yml
         dice_production_yml: ${repo}/dice_production.yml
@@ -32,15 +30,14 @@ stages:
         dice_test_yml: ${repo}/dice_test.yml
         dice_yml: ${repo}/dice.yml
         replacement_images:
-        - ${package-backend}/pack-result
         - ${package-ui}/pack-result
 - stage:
   - dice:
       alias: deploy
+      description: ""
       params:
         dice_yml: ${repo}/dice.yml
         release_id_path: ${release}
         replacement_images:
-        - ${package-backend}/pack-result
-        - ${package-ui}/pack-result
+        - pack-result
         time_out: 300

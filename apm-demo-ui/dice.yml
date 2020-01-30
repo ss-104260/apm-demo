@@ -1,0 +1,29 @@
+---
+  version: 2
+  services: 
+    apm-demo-ui: 
+      health_check: 
+        exec: 
+          cmd: "echo 1"
+      ports: 
+        - 3000
+      deployments: 
+        replicas: 1
+      resources: 
+        cpu: 0.1
+        mem: 512
+        disk: 0
+      expose: 
+        - 3000
+  addons: {}
+  environments: 
+    production: 
+      services: 
+        apm-demo-ui: 
+          deployments: 
+            replicas: 1
+          resources: 
+            cpu: 0.1
+            mem: 512
+            disk: 0
+  envs: {}
