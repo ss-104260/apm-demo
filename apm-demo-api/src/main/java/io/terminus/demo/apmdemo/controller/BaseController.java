@@ -5,11 +5,10 @@ import io.terminus.demo.apmdemo.parser.utils.GsonUtils;
 import io.terminus.demo.utils.Dic;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping(path = "/", method = RequestMethod.GET)
 public class BaseController {
 

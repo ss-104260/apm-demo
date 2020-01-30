@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * @author: liuhaoyang
  * @create: 2019-01-25 12:04
  **/
-@Controller
+@RestController
 @RequestMapping(path = "/api/mock", method = RequestMethod.GET)
 public class MockApiController {
 

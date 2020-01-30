@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.nio.file.Paths;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api/file", method = RequestMethod.GET)
 public class FileApiController {
 

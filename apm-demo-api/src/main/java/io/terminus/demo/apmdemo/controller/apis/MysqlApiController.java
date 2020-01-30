@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api/mysql", method = RequestMethod.GET)
 public class MysqlApiController {
 

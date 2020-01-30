@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api", method = RequestMethod.GET)
 public class RequestApiController {
 

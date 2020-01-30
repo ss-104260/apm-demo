@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api/redis", method = RequestMethod.GET)
 public class RedisApiController {
 

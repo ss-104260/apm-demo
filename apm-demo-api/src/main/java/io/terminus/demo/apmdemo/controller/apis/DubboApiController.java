@@ -5,14 +5,12 @@ import io.terminus.demo.dao.HttpService;
 import io.terminus.demo.rpc.DubboService;
 import io.terminus.demo.utils.Dic;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping(path = "/api/dubbo", method = RequestMethod.GET)
 public class DubboApiController {
 
