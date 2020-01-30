@@ -25,6 +25,10 @@ app.use(bodyParser.raw({
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const pageData = { title: config.title, apiURL: config.apiURL };
+app.get('/health/check',function (req, res, next){
+    res.send({ success: true, data: "ok" });
+});
+
 app.get('/', function (req, res, next) {
     log.info('render index page.');
     res.render('index', pageData);
@@ -33,10 +37,6 @@ app.get('/:page', function (req, res, next) {
     log.info('render ' + req.params.page + ' page.');
     res.render(req.params.page, pageData);
 });
-app.get('/health/check',function (req, res, next){
-    res.send({ success: true, data: "ok" });
-});
-
 function getClientIP(req) {
     return req.headers['x-forwarded-for'] ||
         req.connection.remoteAddress ||
