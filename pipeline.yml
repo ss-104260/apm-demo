@@ -2,23 +2,23 @@ version: "1.1"
 stages:
 - stage:
   - git-checkout:
-      alias: repo
       params:
         depth: 1
 - stage:
-    - buildpack:
-        alias: package-ui
-        params:
-          bp_args:
-            DEP_CMD: "yum install -y gcc-c++ && yum install -y make && npm ci"
-          context: ${repo}/apm-demo-ui
-          modules:
-            - name: apm-demo-ui
-              path: apm-demo-ui
+  - buildpack:
+      alias: package-ui
+      params:
+        bp_args:
+          DEP_CMD: "yum install -y gcc-c++ && yum install -y make && npm ci"
+        bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
+        context: ${git-checkout}/apm-demo-ui
+        modules:
+        - name: apm-demo-ui
+          path: .
   - buildpack:
       alias: package-backend
       params:
-        context: ${repo}
+        context: ${git-checkout}
         modules:
         - name: apm-demo-api
           path: apm-demo-api
@@ -26,11 +26,11 @@ stages:
   - release:
       alias: release
       params:
-        dice_development_yml: ${repo}/dice_development.yml
-        dice_production_yml: ${repo}/dice_production.yml
-        dice_staging_yml: ${repo}/dice_staging.yml
-        dice_test_yml: ${repo}/dice_test.yml
-        dice_yml: ${repo}/dice.yml
+        dice_development_yml: ${git-checkout}/dice_development.yml
+        dice_production_yml: ${git-checkout}/dice_production.yml
+        dice_staging_yml: ${git-checkout}/dice_staging.yml
+        dice_test_yml: ${git-checkout}/dice_test.yml
+        dice_yml: ${git-checkout}/dice.yml
         replacement_images:
         - ${package-backend}/pack-result
         - ${package-ui}/pack-result
@@ -38,7 +38,7 @@ stages:
   - dice:
       alias: deploy
       params:
-        dice_yml: ${repo}/dice.yml
+        dice_yml: ${git-checkout}/dice.yml
         release_id_path: ${release}
         replacement_images:
         - ${package-backend}/pack-result
