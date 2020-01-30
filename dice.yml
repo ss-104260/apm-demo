@@ -17,8 +17,6 @@
         - 8095
 
   addons:
-    terminus-roost:
-      plan: "terminus-roost:professional"
     mysql: 
       plan: "mysql:basic"
       options: 
