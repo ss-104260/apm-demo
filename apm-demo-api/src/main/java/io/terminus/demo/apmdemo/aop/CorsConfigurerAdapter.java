@@ -15,7 +15,7 @@ public class CorsConfigurerAdapter extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new ExceptionInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new RequestInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
 }

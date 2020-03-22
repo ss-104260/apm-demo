@@ -25,13 +25,4 @@ public class GlobalExceptionHandler {
         result.put("error", ex.getMessage());
         return result;
     }
-
-//    @ResponseBody
-//    @ExceptionHandler(Exception.class)
-//    public Map<String, Object> handleServerException(HttpServletRequest request, Exception ex) {
-//        ex.printStackTrace();
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("error",ex.getMessage());
-//        return result;
-//    }
 }

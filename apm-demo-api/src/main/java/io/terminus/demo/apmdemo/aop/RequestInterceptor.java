@@ -13,7 +13,7 @@ import java.util.Enumeration;
  * @create: 2019-01-21 14:39
  **/
 @Slf4j
-public class ExceptionInterceptor implements HandlerInterceptor {
+public class RequestInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
