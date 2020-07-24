@@ -41,8 +41,4 @@ addons:
     plan: "redis:basic"
     options:
       version: "3.2.12"
-  nacos:
-    plan: "service-mesh:basic"
-    options:
-      version: "1.0.0"
 envs: {}
