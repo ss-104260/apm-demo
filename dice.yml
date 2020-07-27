@@ -44,5 +44,5 @@ addons:
   日志分析:
     plan: "log-analytics:basic"
     options:
-      version: "1.0.0"
+      version: "2.0.0"
 envs: {}
