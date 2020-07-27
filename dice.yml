@@ -41,4 +41,8 @@ addons:
     plan: "redis:basic"
     options:
       version: "3.2.12"
+  日志分析:
+    plan: "log-analytics:basic"
+    options:
+      version: "1.0.0"
 envs: {}
