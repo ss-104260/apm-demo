@@ -12,7 +12,7 @@ services:
       replicas: 1
     resources:
       cpu: 0.1
-      mem: 512
+      mem: 256
       disk: 0
     expose:
       - 3000
@@ -32,13 +32,31 @@ services:
       disk: 0
     expose:
       - 8095
+  apm-demo-dubbo:
+    health_check:
+      exec:
+        cmd: "(echo status;sleep 1) | nc localhost 20880 | grep -q \"OK\""
+    deployments:
+      replicas: 1
+    resources:
+      cpu: 0.5
+      mem: 512
+      disk: 0
+    ports:
+      - 20880
+    expose:
+      - 20880
 addons:
-  mysql:
-    plan: "mysql:basic"
+  zookeeper:
+    plan: "apache-zookeeper:basic"
     options:
-      version: "5.7.23"
+      version: "3.4.10"
   redis:
     plan: "redis:basic"
     options:
       version: "3.2.12"
+  mysql:
+    plan: "mysql:basic"
+    options:
+      version: "5.7.23"
 envs: {}

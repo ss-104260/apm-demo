@@ -1,46 +1,61 @@
 version: "1.1"
 stages:
-- stage:
-  - git-checkout:
-      params:
-        depth: 1
-- stage:
-  - buildpack:
-      alias: package-ui
-      params:
-        bp_args:
-          DEP_CMD: "yum install -y gcc-c++ && yum install -y make && npm ci"
-        bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
-        context: ${git-checkout}/apm-demo-ui
-        modules:
-        - name: apm-demo-ui
-          path: .
-  - buildpack:
-      alias: package-backend
-      params:
-        context: ${git-checkout}
-        modules:
-        - name: apm-demo-api
-          path: apm-demo-api
-- stage:
-  - release:
-      alias: release
-      params:
-        dice_development_yml: ${git-checkout}/dice_development.yml
-        dice_production_yml: ${git-checkout}/dice_production.yml
-        dice_staging_yml: ${git-checkout}/dice_staging.yml
-        dice_test_yml: ${git-checkout}/dice_test.yml
-        dice_yml: ${git-checkout}/dice.yml
-        replacement_images:
-        - ${package-backend}/pack-result
-        - ${package-ui}/pack-result
-- stage:
-  - dice:
-      alias: deploy
-      params:
-        dice_yml: ${git-checkout}/dice.yml
-        release_id_path: ${release}
-        replacement_images:
-        - ${package-backend}/pack-result
-        - ${package-ui}/pack-result
-        time_out: 300
+  - stage:
+      - git-checkout:
+          alias: git-checkout
+          version: "1.0"
+          params:
+            branch: ((gittar.branch))
+            depth: 1
+            password: ((gittar.password))
+            uri: ((gittar.repo))
+            username: ((gittar.username))
+  - stage:
+      - buildpack:
+          alias: package-ui
+          params:
+            bp_args:
+              DEP_CMD: yum install -y gcc-c++ && yum install -y make && npm ci
+            bp_repo: ((bp.repo.prefix))/dice-bpack-termnodejs.git
+            context: ${git-checkout}/apm-demo-ui
+            modules:
+              - name: apm-demo-ui
+                path: .
+      - buildpack:
+          alias: package-api
+          params:
+            context: ${git-checkout}
+            modules:
+              - name: apm-demo-api
+                path: apm-demo-api
+      - buildpack:
+          alias: package-dubbo
+          params:
+            context: ${git-checkout}
+            modules:
+              - name: apm-demo-dubbo
+                path: apm-demo-dubbo
+  - stage:
+      - release:
+          alias: release
+          params:
+            dice_development_yml: ${git-checkout}/dice_development.yml
+            dice_production_yml: ${git-checkout}/dice_production.yml
+            dice_staging_yml: ${git-checkout}/dice_staging.yml
+            dice_test_yml: ${git-checkout}/dice_test.yml
+            dice_yml: ${git-checkout}/dice.yml
+            replacement_images:
+              - ${package-dubbo}/pack-result
+              - ${package-api}/pack-result
+              - ${package-ui}/pack-result
+  - stage:
+      - dice:
+          alias: deploy
+          params:
+            dice_yml: ${git-checkout}/dice.yml
+            release_id_path: ${release}
+            replacement_images:
+              - ${package-dubbo}/pack-result
+              - ${package-api}/pack-result
+              - ${package-ui}/pack-result
+            time_out: 300
