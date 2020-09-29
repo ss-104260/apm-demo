@@ -59,4 +59,8 @@ addons:
     plan: "mysql:basic"
     options:
       version: "5.7.23"
+  api-gateway:
+    plan: "api-gateway:basic"
+    options:
+      version: "2.0.0"
 envs: {}
