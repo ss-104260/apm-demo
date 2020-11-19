@@ -33,14 +33,14 @@ services:
     expose:
       - 8095
 addons:
-  mysql:
-    plan: "mysql:basic"
-    options:
-      version: "5.7.23"
-  redis:
-    plan: "redis:basic"
-    options:
-      version: "3.2.12"
+#   mysql:
+#     plan: "mysql:basic"
+#     options:
+#       version: "5.7.23"
+#   redis:
+#     plan: "redis:basic"
+#     options:
+#       version: "3.2.12"
   log-analytics:
     plan: "log-analytics:basic"
     options:
