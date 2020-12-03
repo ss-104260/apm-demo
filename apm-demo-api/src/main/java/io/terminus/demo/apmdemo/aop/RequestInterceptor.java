@@ -1,6 +1,7 @@
 package io.terminus.demo.apmdemo.aop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -20,6 +21,8 @@ public class RequestInterceptor implements HandlerInterceptor {
         log.info("Interceptor preHandle");
         log.info("RequestURL =====> {}", request.getRequestURI());
         log.info("QueryString =====> {}", request.getQueryString());
+        MDC.put("req", request.getRequestURI());
+        MDC.put("userID", "1");
         Enumeration<String> headers = request.getHeaderNames();
         while (headers.hasMoreElements()) {
             String h = headers.nextElement();
@@ -31,5 +34,6 @@ public class RequestInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         log.info("Interceptor postHandle");
+        MDC.clear();
     }
 }
