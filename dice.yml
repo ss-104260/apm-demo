@@ -27,7 +27,7 @@ services:
     deployments:
       replicas: 1
     resources:
-      cpu: 1
+      cpu: 0.5
       mem: 512
       disk: 0
     expose:
