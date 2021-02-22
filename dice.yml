@@ -56,7 +56,9 @@ addons:
     options:
       version: "3.2.12"
   zookeeper:
-    plan: zookeeper:basic
+    plan: "zookeeper:basic"
+    options:
+      version: "3.4.10"
 #  log-analytics:
 #    plan: "log-analytics:basic"
 #    options:
