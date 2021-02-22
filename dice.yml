@@ -42,7 +42,7 @@ addons:
     plan: "redis:basic"
     options:
       version: "3.2.12"
-  z:
+  zookeeper:
     plan: "apache-zookeeper:basic"
     options:
       version: "3.4.10"
