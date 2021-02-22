@@ -1,11 +1,11 @@
 version: 2
 services:
   apm-demo-ui:
-    health_check:
-      http:
-        port: 3000
-        path: "/health/check"
-        duration: 120
+#    health_check:
+#      http:
+#        port: 3000
+#        path: "/health/check"
+#        duration: 120
     ports:
       - 3000
     deployments:
@@ -17,11 +17,11 @@ services:
     expose:
       - 3000
   apm-demo-api:
-    health_check:
-      http:
-        port: 8095
-        path: "/health/check"
-        duration: 120
+#    health_check:
+#      http:
+#        port: 8095
+#        path: "/health/check"
+#        duration: 120
     ports:
       - 8095
     deployments:
@@ -33,9 +33,9 @@ services:
     expose:
       - 8095
   apm-demo-dubbo:
-    health_check:
-      exec:
-        cmd: "(echo status;sleep 1) | nc localhost 20880 | grep -q \"OK\""
+#    health_check:
+#      exec:
+#        cmd: "(echo status;sleep 1) | nc localhost 20880 | grep -q \"OK\""
     deployments:
       replicas: 1
     resources:
